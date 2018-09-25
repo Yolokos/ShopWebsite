@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using BookStoreWebApi.Validate;
 using BookStoreWebApi.Models;
 
 namespace BookStoreWebApi
@@ -33,6 +34,9 @@ namespace BookStoreWebApi
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            services.AddTransient<IUserValidator<Customer>, EmailValidatior>();
+
             services.AddDbContext<ApplicationDbContext>(options => {
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
             });

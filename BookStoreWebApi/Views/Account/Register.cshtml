@@ -1,0 +1,52 @@
+﻿@model BookStoreWebApi.ViewModel.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Register</h2>
+
+
+<form asp-action="Register" asp-controller="Account" class="form-horizontal" method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-group">
+        <div>
+            <label asp-for="Name">Имя</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div>
+            <label asp-for="SurName">Фамилия</label>
+            <input asp-for="SurName" class="form-control" />
+            <span asp-validation-for="SurName"></span>
+        </div>
+        <div>
+            <label asp-for="Email">Почта</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div>
+            <label asp-for="ConfirmEmail">Подтвердите почту</label>
+            <input asp-for="ConfirmEmail" class="form-control" />
+            <span asp-validation-for="ConfirmEmail"></span>
+        </div>
+        <div>
+            <label asp-for="PhoneNumber">Номер телефона</label>
+            <input asp-for="PhoneNumber" class="form-control" pattern="\+380\s?[\(]{0,1}9[0-9]{2}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}" placeholder="+380 (123) 123-12-12" />
+            <span asp-validation-for="PhoneNumber"></span>
+        </div>
+        <div>
+            <label asp-for="Password">Пароль</label>
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password"></span>
+        </div>
+        <div>
+            <label asp-for="ConfirmPassword">Подтвердите пароль</label>
+            <input asp-for="ConfirmPassword" class="form-control" />
+            <span asp-validation-for="ConfirmPassword"></span>
+        </div>
+        <div>
+            <input type="submit" value="Отправить" class="btn btn-default" /> 
+        </div>
+    </div>
+</form>

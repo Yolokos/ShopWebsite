@@ -31,3 +31,4 @@ C:\Users\guts\source\repos\ShopWebApp\BookStoreWebApi\obj\Debug\netcoreapp2.1\Bo
 C:\Users\guts\source\repos\ShopWebApp\BookStoreWebApi\obj\Debug\netcoreapp2.1\BookStoreWebApi.pdb
 C:\Users\guts\source\repos\ShopWebApp\BookStoreWebApi\obj\Debug\netcoreapp2.1\BookStoreWebApi.csproj.CopyComplete
 C:\Users\guts\source\repos\ShopWebApp\BookStoreWebApi\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_LoginPartial.g.cshtml.cs
+C:\Users\guts\source\repos\ShopWebApp\BookStoreWebApi\obj\Debug\netcoreapp2.1\Razor\Views\Account\Register.g.cshtml.cs

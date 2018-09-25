@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Mail;
 using BookStoreWebApi.Models;
 using BookStoreWebApi.ViewModel;
 
@@ -44,6 +45,7 @@ namespace BookStoreWebApi.Controllers
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            
             if (ModelState.IsValid)
             {
                 var customer = new Customer
