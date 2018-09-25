@@ -42,7 +42,7 @@ namespace BookStoreWebApi.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [AutoValidateAntiforgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             
@@ -51,6 +51,7 @@ namespace BookStoreWebApi.Controllers
                 var customer = new Customer
                 {
                     Email = model.Email,
+                    UserName = model.Email,
                     Name = model.Name,
                     SurName = model.SurName,
                     PhoneNumber = model.PhoneNumber
@@ -60,7 +61,8 @@ namespace BookStoreWebApi.Controllers
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(customer, "user");
-                    return RedirectToAction("Login", "Account");
+                    await signInManager.SignInAsync(customer, false);
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -75,9 +77,9 @@ namespace BookStoreWebApi.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl)
         {
-            return View();
+            return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
 
         [HttpPost]
@@ -107,6 +109,13 @@ namespace BookStoreWebApi.Controllers
                 }
             }
             return View(model);
+        }
+
+       
+        public async Task<IActionResult> Logoff()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -65,6 +65,7 @@ namespace BookStoreWebApi
             }
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
