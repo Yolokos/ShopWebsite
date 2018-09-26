@@ -16,6 +16,9 @@ namespace BookStoreWebApi.Models
         [Column(TypeName = "Date")]
         public DateTime EmploymentDate { get; set; }
         public DateTime WorkingShift { get; set; }
+
+        public int OrderId { get; set; }
+        public Order Order { get; set; }
     }
 
     public class Order
@@ -33,6 +36,9 @@ namespace BookStoreWebApi.Models
         public double DeliverPrice { get; set; }
         public List<Courier> CouriersId { get; set; }
         public string DeliverAdress { get; set; }
+
+        public int ShoppingCartId { get; set; }
+        public ShoppingCart ShoppingCart { get; set; }
 
         public Order()
         {
@@ -52,6 +58,9 @@ namespace BookStoreWebApi.Models
         [Column(TypeName = "Date")]
         public DateTime YearOfPublishing { get; set; }
         public double BookPrice { get; set; }
+
+        public int ShoppingCartId { get; set; }
+        public ShoppingCart ShoppingCart { get; set; }
     }
 
     public class ShoppingCart
