@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using BookStoreWebApi.Models;
 using BookStoreWebApi.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookStoreWebApi.Controllers
 {
@@ -23,12 +24,15 @@ namespace BookStoreWebApi.Controllers
 
         public IActionResult Store() => View(db.Books.ToList());
 
-        public async Task<IActionResult> InfoBook(string ISBN)
+        
+        
+
+        public async Task<IActionResult> BuyBook(string ISBN)
         {
-            if(!string.IsNullOrEmpty(ISBN))
+            if (!string.IsNullOrEmpty(ISBN))
             {
                 var book = await db.Books.FirstOrDefaultAsync(p => p.ISBN == ISBN);
-                if(book != null)
+                if (book != null)
                 {
                     return View(book);
                 }
@@ -39,25 +43,46 @@ namespace BookStoreWebApi.Controllers
             }
             return NotFound();
         }
-
         
-        public async Task<IActionResult> BuyBook(string ISBN, TypeOfDeliverViewModel typeOfDeliver)
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BuyBook(string ISBN, TypeOfDeliverViewModel typeOfDeliver, int countOfBooks = 1)
         {
-            var user = await GetCurrentUser();
-            DateTime today = DateTime.Now;
-
-            await db.Orders.AddAsync(new Order
+            if (ModelState.IsValid)
             {
-                CustomersId = new List<Customer> { user },
-                FormOfPayment = "Yandex.Money",
-                DateOrder = today,
-                DateDeliver = today.AddDays(3),
-                DateOfExecute = today.AddDays(1),
-                TypeOfDeliver = typeOfDeliver.Type,
-                DeliverPrice = typeOfDeliver.Price
-            });
+                var user = await GetCurrentUser();
+                var book = await db.Books.FirstOrDefaultAsync(p => p.ISBN == ISBN);
+                var courier = await db.Couriers.FirstAsync();
+                DateTime today = DateTime.Now;
+                var order = new Order
+                {
+                    CustomersId = new List<Customer> { user },
+                    FormOfPayment = typeOfDeliver.Payment.ToString(),
+                    DateOrder = today,
+                    DateDeliver = today.AddDays(3),
+                    DateOfExecute = today.AddDays(1),
+                    TypeOfDeliver = typeOfDeliver.Type.ToString(),
+                    DeliverPrice = typeOfDeliver.Price,
+                    CouriersId = new List<Courier> { courier },
+                    DeliverAdress = typeOfDeliver.Adress
+                };
 
-            throw new Exception();
+                await db.Orders.AddAsync(order);
+
+                await db.Shoppings.AddAsync(new ShoppingCart
+                {
+                    OrdersId = new List<Order> { order },
+                    BooksId = new List<Book> { book },
+                    CountCopy = countOfBooks
+                });
+
+                await db.SaveChangesAsync();
+
+                return View(order);
+            }
+            return View(typeOfDeliver);
         }
 
         private async Task<Customer> GetCurrentUser()
