@@ -26,6 +26,8 @@ namespace BookStoreWebApi.Migrations
 
                     b.Property<double>("BookPrice");
 
+                    b.Property<string>("Description");
+
                     b.Property<string>("NameOfBook");
 
                     b.Property<string>("Publishing");

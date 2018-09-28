@@ -2725,6 +2725,16 @@
           "lib/netstandard2.0/Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll": {}
         }
       },
+      "Microsoft.Web.LibraryManager.Build/1.0.113": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.Loader": "4.3.0"
+        },
+        "build": {
+          "build/Microsoft.Web.LibraryManager.Build.props": {},
+          "build/Microsoft.Web.LibraryManager.Build.targets": {}
+        }
+      },
       "Microsoft.Win32.Registry/4.5.0": {
         "type": "package",
         "dependencies": {
@@ -4052,6 +4062,20 @@
             "assetType": "runtime",
             "rid": "win"
           }
+        }
+      },
+      "System.Runtime.Loader/4.3.0": {
+        "type": "package",
+        "dependencies": {
+          "System.IO": "4.3.0",
+          "System.Reflection": "4.3.0",
+          "System.Runtime": "4.3.0"
+        },
+        "compile": {
+          "ref/netstandard1.5/System.Runtime.Loader.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.5/System.Runtime.Loader.dll": {}
         }
       },
       "System.Runtime.Numerics/4.3.0": {
@@ -7412,6 +7436,26 @@
         "lib/netstandard2.0/identitygeneratorfilesconfig.json",
         "microsoft.visualstudio.web.codegenerators.mvc.2.1.1.nupkg.sha512",
         "microsoft.visualstudio.web.codegenerators.mvc.nuspec"
+      ]
+    },
+    "Microsoft.Web.LibraryManager.Build/1.0.113": {
+      "sha512": "PzN2PZ17FLiU7c1Q0JyjNTxtYeZKjX4cx/fEULddhcxzgmRW2giQ9kmGcpMUHx2d73MbRI7fOtVxsxcuC+dDuA==",
+      "type": "package",
+      "path": "microsoft.web.librarymanager.build/1.0.113",
+      "files": [
+        ".signature.p7s",
+        "Third-party-notice.txt",
+        "build/Microsoft.Web.LibraryManager.Build.props",
+        "build/Microsoft.Web.LibraryManager.Build.targets",
+        "microsoft.web.librarymanager.build.1.0.113.nupkg.sha512",
+        "microsoft.web.librarymanager.build.nuspec",
+        "tools/net461/Microsoft.Web.LibraryManager.Build.dll",
+        "tools/net461/Microsoft.Web.LibraryManager.Contracts.dll",
+        "tools/net461/Microsoft.Web.LibraryManager.dll",
+        "tools/net461/Newtonsoft.Json.dll",
+        "tools/netstandard2.0/Microsoft.Web.LibraryManager.Build.dll",
+        "tools/netstandard2.0/Microsoft.Web.LibraryManager.Contracts.dll",
+        "tools/netstandard2.0/Microsoft.Web.LibraryManager.dll"
       ]
     },
     "Microsoft.Win32.Registry/4.5.0": {
@@ -10804,6 +10848,36 @@
         "system.runtime.interopservices.runtimeinformation.nuspec"
       ]
     },
+    "System.Runtime.Loader/4.3.0": {
+      "sha512": "DHMaRn8D8YCK2GG2pw+UzNxn/OHVfaWx7OTLBD/hPegHZZgcZh3H6seWegrC4BYwsfuGrywIuT+MQs+rPqRLTQ==",
+      "type": "package",
+      "path": "system.runtime.loader/4.3.0",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net462/_._",
+        "lib/netstandard1.5/System.Runtime.Loader.dll",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/netstandard1.5/System.Runtime.Loader.dll",
+        "ref/netstandard1.5/System.Runtime.Loader.xml",
+        "ref/netstandard1.5/de/System.Runtime.Loader.xml",
+        "ref/netstandard1.5/es/System.Runtime.Loader.xml",
+        "ref/netstandard1.5/fr/System.Runtime.Loader.xml",
+        "ref/netstandard1.5/it/System.Runtime.Loader.xml",
+        "ref/netstandard1.5/ja/System.Runtime.Loader.xml",
+        "ref/netstandard1.5/ko/System.Runtime.Loader.xml",
+        "ref/netstandard1.5/ru/System.Runtime.Loader.xml",
+        "ref/netstandard1.5/zh-hans/System.Runtime.Loader.xml",
+        "ref/netstandard1.5/zh-hant/System.Runtime.Loader.xml",
+        "system.runtime.loader.4.3.0.nupkg.sha512",
+        "system.runtime.loader.nuspec"
+      ]
+    },
     "System.Runtime.Numerics/4.3.0": {
       "sha512": "yMH+MfdzHjy17l2KESnPiF2dwq7T+xLnSJar7slyimAkUh/gTrS9/UQOtv7xarskJ2/XDSNvfLGOBQPjL7PaHQ==",
       "type": "package",
@@ -12457,6 +12531,7 @@
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.NETCore.App >= 2.1.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.1.1",
+      "Microsoft.Web.LibraryManager.Build >= 1.0.113",
       "mysql.data.entityframeworkcore >= 8.0.12",
       "pomelo.entityframeworkcore.mysql >= 2.1.2"
     ]
@@ -12516,6 +12591,10 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[2.1.1, )"
+          },
+          "Microsoft.Web.LibraryManager.Build": {
+            "target": "Package",
+            "version": "[1.0.113, )"
           },
           "mysql.data.entityframeworkcore": {
             "target": "Package",

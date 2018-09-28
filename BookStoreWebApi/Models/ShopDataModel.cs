@@ -54,6 +54,7 @@ namespace BookStoreWebApi.Models
         public string SectionOfLiterature { get; set; }
         public string NameOfBook { get; set; }
         public string Authors { get; set; }
+        public string Description { get; set; }
         public string Publishing { get; set; }
         [Column(TypeName = "Date")]
         public DateTime YearOfPublishing { get; set; }
