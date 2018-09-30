@@ -58,10 +58,7 @@ namespace BookStoreWebApi.Models
         public string Publishing { get; set; }
         [Column(TypeName = "Date")]
         public DateTime YearOfPublishing { get; set; }
-        public double BookPrice { get; set; }
-
-        public int ShoppingCartId { get; set; }
-        public ShoppingCart ShoppingCart { get; set; }
+        public double BookPrice { get; set; }      
     }
 
     public class ShoppingCart
