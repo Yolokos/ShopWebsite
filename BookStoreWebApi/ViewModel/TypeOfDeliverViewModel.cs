@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BookStoreWebApi.Enums;
+using BookStoreWebApi.Models;
 
 namespace BookStoreWebApi.ViewModel
 {
@@ -8,10 +9,14 @@ namespace BookStoreWebApi.ViewModel
         [Required]
         public EnumTypeOfDeliver Type { get; set; }
         [Required]
-        public EmumOfPayment Payment { get; set; }
+        public EnumOfPayment TypePayment { get; set; }
         [Required]
         public double Price { get; set; }
         [Required]
         public string Adress { get; set; }
+        [Required]
+        public int CountOfBooks { get; set; }
+
+        public Book Book { get; set; }
     }
 }

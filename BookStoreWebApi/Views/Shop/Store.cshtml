@@ -27,7 +27,7 @@
                     <tr><td><strong>Цена:</strong>@book.BookPrice</td></tr>
                 </table>
                 <div class="bottom">
-                    <a asp-action="BuyBook" asp-controller="Shop" class="btn btn-primary bottom">Купить</a>
+                    <a asp-action="BuyBook" asp-controller="Shop" asp-route-ISBN="@book.ISBN" class="btn btn-primary bottom">Купить</a>
                 </div>
             </div>
         </div>

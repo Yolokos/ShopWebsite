@@ -38,32 +38,27 @@ namespace BookStoreWebApi.Controllers
                 var book = await db.Books.FirstOrDefaultAsync(p => p.ISBN == ISBN);
                 if (book != null)
                 {
-                    return View(book);
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Такой книги не существует");
-                }
+                    return View(new TypeOfDeliverViewModel { Book = book });
+                }               
             }
             return NotFound();
         }
-        
+       
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "user, admin")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BuyBook(string ISBN, TypeOfDeliverViewModel typeOfDeliver, int countOfBooks = 1)
+        public async Task<IActionResult> BuyBook(TypeOfDeliverViewModel typeOfDeliver)
         {
             if (ModelState.IsValid)
             {
-                var user = await GetCurrentUser();
-                var book = await db.Books.FirstOrDefaultAsync(p => p.ISBN == ISBN);
+                var user = await GetCurrentUser();              
                 var courier = await db.Couriers.FirstAsync();
                 DateTime today = DateTime.Now;
                 var order = new Order
                 {
                     CustomersId = new List<Customer> { user },
-                    FormOfPayment = typeOfDeliver.Payment.ToString(),
+                    FormOfPayment = typeOfDeliver.TypePayment.ToString(),
                     DateOrder = today,
                     DateDeliver = today.AddDays(3),
                     DateOfExecute = today.AddDays(1),
@@ -78,13 +73,13 @@ namespace BookStoreWebApi.Controllers
                 await db.Shoppings.AddAsync(new ShoppingCart
                 {
                     OrdersId = new List<Order> { order },
-                    BooksId = new List<Book> { book },
-                    CountCopy = countOfBooks
+                    BooksId = new List<Book> { typeOfDeliver.Book },
+                    CountCopy = typeOfDeliver.CountOfBooks
                 });
 
                 await db.SaveChangesAsync();
 
-                return View(order);
+                return Ok("Заказ оформлен");
             }
             return View(typeOfDeliver);
         }

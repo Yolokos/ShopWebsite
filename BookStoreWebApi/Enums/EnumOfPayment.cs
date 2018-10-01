@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BookStoreWebApi.Enums
 {
-    public enum EmumOfPayment
+    public enum EnumOfPayment
     {
         VisaMasterCard,
         QIWI,

@@ -8,7 +8,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="1.0.113" />
     <PackageReference Include="mysql.data.entityframeworkcore" Version="8.0.12" />
     <PackageReference Include="pomelo.entityframeworkcore.mysql" Version="2.1.2" />
   </ItemGroup>

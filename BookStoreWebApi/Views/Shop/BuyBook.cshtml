@@ -1,7 +1,51 @@
-﻿
+﻿@model BookStoreWebApi.ViewModel.TypeOfDeliverViewModel
+
+@using BookStoreWebApi.Enums
 @{
     ViewData["Title"] = "BuyBook";
 }
 
-<h2>BuyBook</h2>
+<h2>Оформление заказа для книги "@Model.Book.NameOfBook"</h2>
 
+
+
+<form method="post" asp-controller="Shop" asp-action="BuyBook">
+        <div class="form-group">
+            <div>
+                <label asp-for="Type" class="col-md-2 control-label">Тип доставки</label>
+                <div>
+                    <select asp-for="Type">
+                        <option selected="selected" value="">Please select</option>
+                        <option value="@(EnumTypeOfDeliver.CourierDeliver)">Доставка курьером</option>
+                        <option value="@(EnumTypeOfDeliver.ExpressCourierDeliver)">Cрочная и быстрая доставка</option>
+                        <option value="@(EnumTypeOfDeliver.StaffCourierDeliver)">Доставка от штатного курьера</option>
+                        <option value="@(EnumTypeOfDeliver.PostDeliver)">Почта</option>
+                    </select>
+                    <span asp-validation-for="Type" class="text-danger" />
+                </div>
+            </div><br />
+
+            <div>
+                    <label asp-for="TypePayment" class="col-md-2 control-label">Тип оплаты</label>
+                    <select asp-for="TypePayment">
+                        <option selected="selected" value="">Please select</option>
+                        <option value="@(EnumOfPayment.QIWI)">QIWI</option>
+                    </select>
+                    <span asp-validation-for="TypePayment" class="text-danger" />
+             </div><br />
+           
+            <div>
+                <label asp-for="Adress">Адресс</label>
+                <input asp-for="Adress" type="text" class="form-control" size="40" />
+                <span asp-validation-for="Adress" class="text-danger"></span>
+            </div><br />
+            <div>
+                <label asp-for="CountOfBooks">Кол-во экземпляров</label>
+                <input asp-for="CountOfBooks" type="text" class="form-control" size="10" />
+                <span asp-validation-for="CountOfBooks" class="text-danger"></span>
+            </div><br />
+            <div>
+                <input type="submit" value="Send" class="btn btn-primary"/>
+            </div>
+        </div>
+</form>
