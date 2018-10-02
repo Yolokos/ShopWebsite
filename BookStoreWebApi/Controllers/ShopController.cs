@@ -30,7 +30,7 @@ namespace BookStoreWebApi.Controllers
 
         
         
-
+        [Authorize(Roles = "user, admin")]
         public async Task<IActionResult> BuyBook(string ISBN)
         {
             if (!string.IsNullOrEmpty(ISBN))

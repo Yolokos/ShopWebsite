@@ -59,7 +59,7 @@ namespace BookStoreWebApi.Migrations
 
                     b.Property<string>("FirstName");
 
-                    b.Property<int>("OrderId");
+                    b.Property<int?>("OrderId");
 
                     b.Property<string>("SecondName");
 
@@ -99,7 +99,7 @@ namespace BookStoreWebApi.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256);
 
-                    b.Property<int>("OrderId");
+                    b.Property<int?>("OrderId");
 
                     b.Property<string>("PasswordHash");
 
@@ -150,7 +150,7 @@ namespace BookStoreWebApi.Migrations
 
                     b.Property<string>("FormOfPayment");
 
-                    b.Property<int>("ShoppingCartId");
+                    b.Property<int?>("ShoppingCartId");
 
                     b.Property<string>("TypeOfDeliver");
 
@@ -289,26 +289,23 @@ namespace BookStoreWebApi.Migrations
 
             modelBuilder.Entity("BookStoreWebApi.Models.Courier", b =>
                 {
-                    b.HasOne("BookStoreWebApi.Models.Order", "Order")
+                    b.HasOne("BookStoreWebApi.Models.Order")
                         .WithMany("CouriersId")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OrderId");
                 });
 
             modelBuilder.Entity("BookStoreWebApi.Models.Customer", b =>
                 {
-                    b.HasOne("BookStoreWebApi.Models.Order", "Order")
+                    b.HasOne("BookStoreWebApi.Models.Order")
                         .WithMany("CustomersId")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OrderId");
                 });
 
             modelBuilder.Entity("BookStoreWebApi.Models.Order", b =>
                 {
-                    b.HasOne("BookStoreWebApi.Models.ShoppingCart", "ShoppingCart")
+                    b.HasOne("BookStoreWebApi.Models.ShoppingCart")
                         .WithMany("OrdersId")
-                        .HasForeignKey("ShoppingCartId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ShoppingCartId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

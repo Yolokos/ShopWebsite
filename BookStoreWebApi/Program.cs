@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +34,7 @@ namespace BookStoreWebApi
             }
 
             host.Run();
+
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
