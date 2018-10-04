@@ -64,10 +64,11 @@ namespace BookStoreWebApi.Migrations
                     SectionOfLiterature = table.Column<string>(nullable: true),
                     NameOfBook = table.Column<string>(nullable: true),
                     Authors = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     Publishing = table.Column<string>(nullable: true),
                     YearOfPublishing = table.Column<DateTime>(type: "Date", nullable: false),
                     BookPrice = table.Column<double>(nullable: false),
-                    ShoppingCartId = table.Column<int>(nullable: true)
+                    ShoppingCartId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,7 +78,7 @@ namespace BookStoreWebApi.Migrations
                         column: x => x.ShoppingCartId,
                         principalTable: "Shoppings",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -127,7 +128,7 @@ namespace BookStoreWebApi.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     SurName = table.Column<string>(nullable: true),
-                    OrderId = table.Column<int>(nullable: true)
+                    OrderId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -137,7 +138,7 @@ namespace BookStoreWebApi.Migrations
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -151,7 +152,7 @@ namespace BookStoreWebApi.Migrations
                     DateOfBorn = table.Column<DateTime>(type: "Date", nullable: false),
                     EmploymentDate = table.Column<DateTime>(type: "Date", nullable: false),
                     WorkingShift = table.Column<DateTime>(nullable: false),
-                    OrderId = table.Column<int>(nullable: true)
+                    OrderId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -161,7 +162,7 @@ namespace BookStoreWebApi.Migrations
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

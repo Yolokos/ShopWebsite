@@ -10,8 +10,15 @@ namespace BookStoreWebApi.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly ApplicationDbContext db;
+
+        public HomeController(ApplicationDbContext db)
         {
+            this.db = db;
+        }
+
+        public IActionResult Index()
+        {        
             return View();
         }
 

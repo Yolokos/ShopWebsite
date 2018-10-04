@@ -54,7 +54,8 @@ namespace BookStoreWebApi.Controllers
                     UserName = model.Email,
                     Name = model.Name,
                     SurName = model.SurName,
-                    PhoneNumber = model.PhoneNumber
+                    PhoneNumber = model.PhoneNumber,
+                    OrderId = null
                 };
 
                 var result = await userManager.CreateAsync(customer, model.Password);

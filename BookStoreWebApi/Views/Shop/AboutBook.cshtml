@@ -1,0 +1,16 @@
+﻿@model  BookStoreWebApi.Models.Book
+
+@{
+    ViewData["Title"] = "AboutBook";
+}
+
+<h2>Описание</h2>
+
+<img src="~/images/img-@(Model.ISBN).jpg" />
+
+<p>@Model.Description</p>
+
+<div class="bottom">
+    <a asp-action="BuyBook" asp-controller="Shop" asp-route-ISBN="@Model.ISBN" class="btn btn-dark bottom">Оформить заказ</a>
+</div>
+

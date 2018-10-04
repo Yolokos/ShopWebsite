@@ -20,15 +20,23 @@ namespace BookStoreWebApi.Controllers
         {
             this.db = db;
             this.userManager = userManager;
-           // InitializeBooks();
+          
         }
 
         public async Task<IActionResult> Store() {
-
+           
             return View(await db.Books.ToListAsync());
         }
 
-        
+        public async Task<IActionResult> AboutBook(string ISBN)
+        {
+            var book = await db.Books.FirstOrDefaultAsync(p => p.ISBN == ISBN);
+            if(book != null)
+            {
+                return View(book);
+            }
+            return NotFound();
+        }
         
         [Authorize(Roles = "user, admin")]
         public async Task<IActionResult> BuyBook(string ISBN)
@@ -52,34 +60,33 @@ namespace BookStoreWebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await GetCurrentUser();              
-                var courier = await db.Couriers.FirstAsync();
-                DateTime today = DateTime.Now;
-                var order = new Order
-                {
-                    CustomersId = new List<Customer> { user },
-                    FormOfPayment = typeOfDeliver.TypePayment.ToString(),
-                    DateOrder = today,
-                    DateDeliver = today.AddDays(3),
-                    DateOfExecute = today.AddDays(1),
-                    TypeOfDeliver = typeOfDeliver.Type.ToString(),
-                    DeliverPrice = typeOfDeliver.Price,
-                    CouriersId = new List<Courier> { courier },
-                    DeliverAdress = typeOfDeliver.Adress
-                };
-
-                await db.Orders.AddAsync(order);
-
-                await db.Shoppings.AddAsync(new ShoppingCart
-                {
-                    OrdersId = new List<Order> { order },
-                    BooksId = new List<Book> { typeOfDeliver.Book },
+                DateTime dateTime = DateTime.Now;
+                var shoppingCart = new ShoppingCart() {
                     CountCopy = typeOfDeliver.CountOfBooks
-                });
-
+                };
+                await db.Shoppings.AddAsync(shoppingCart);
                 await db.SaveChangesAsync();
 
-                return Ok("Заказ оформлен");
+                var book = typeOfDeliver.Book;
+                book.ShoppingCart = shoppingCart;
+                await db.SaveChangesAsync();
+
+                var order = new Order
+                {
+                    FormOfPayment = typeOfDeliver.TypePayment.ToString(),
+                    DateOrder = dateTime,
+                    DateDeliver = dateTime.AddDays(3),
+                    DateOfExecute = dateTime.AddDays(1),
+                    TypeOfDeliver = typeOfDeliver.Type.ToString(),
+                    DeliverPrice = typeOfDeliver.Price,
+                    DeliverAdress = typeOfDeliver.Adress
+                };
+                await db.Orders.AddAsync(order);
+                await db.SaveChangesAsync();
+
+                var user = await GetCurrentUser();
+                user.Order = order;
+                await db.SaveChangesAsync();
             }
             return View(typeOfDeliver);
         }
@@ -120,7 +127,7 @@ namespace BookStoreWebApi.Controllers
             }
             };
 
-            await db.Books.AddAsync(books[0]);
+            await db.Books.AddAsync(books[1]);
             await db.SaveChangesAsync();           
         }
     }

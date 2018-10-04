@@ -15,11 +15,12 @@
         @foreach (var book in Model)
         {
         <div class="card bg-info">
-            <div class="col-sm-4">
-            <img class="card-img-top" src="~/images/img-@(book.ISBN).jpg" />
-            </div>
+            
             <div class="col-sm-4">                
                 <table>
+                    <tr>
+                    <img class="card-img-top" src="~/images/img-@(book.ISBN).jpg" width="189" height="255" />
+                    </tr>
                     <tr><td><strong>Название книги:</strong>@book.NameOfBook</td></tr>
                     <tr><td><strong>Автор:</strong>@book.Authors</td></tr>
                     <tr><td><strong>ISBN книги:</strong>@book.ISBN</td></tr>
@@ -29,8 +30,11 @@
                 <div class="bottom">
                     <a asp-action="BuyBook" asp-controller="Shop" asp-route-ISBN="@book.ISBN" class="btn btn-primary bottom">Купить</a>
                 </div>
+                <div class="bottom">
+                    <a asp-action="AboutBook" asp-controller="Shop" asp-route-ISBN="@book.ISBN" class="btn btn-primary bottom">Описание</a>
+                </div>
             </div>
-        </div>
+         </div>
         }
     </div>
 </div>

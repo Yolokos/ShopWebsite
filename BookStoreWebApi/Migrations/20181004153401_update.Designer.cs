@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStoreWebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181002145921_books.drop")]
-    partial class booksdrop
+    [Migration("20181004153401_update")]
+    partial class update
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,7 +36,7 @@ namespace BookStoreWebApi.Migrations
 
                     b.Property<string>("SectionOfLiterature");
 
-                    b.Property<int?>("ShoppingCartId");
+                    b.Property<int>("ShoppingCartId");
 
                     b.Property<DateTime>("YearOfPublishing")
                         .HasColumnType("Date");
@@ -46,32 +46,6 @@ namespace BookStoreWebApi.Migrations
                     b.HasIndex("ShoppingCartId");
 
                     b.ToTable("Books");
-                });
-
-            modelBuilder.Entity("BookStoreWebApi.Models.Courier", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DateOfBorn")
-                        .HasColumnType("Date");
-
-                    b.Property<DateTime>("EmploymentDate")
-                        .HasColumnType("Date");
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<int?>("OrderId");
-
-                    b.Property<string>("SecondName");
-
-                    b.Property<DateTime>("WorkingShift");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("Couriers");
                 });
 
             modelBuilder.Entity("BookStoreWebApi.Models.Customer", b =>
@@ -101,7 +75,7 @@ namespace BookStoreWebApi.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256);
 
-                    b.Property<int?>("OrderId");
+                    b.Property<int>("OrderId");
 
                     b.Property<string>("PasswordHash");
 
@@ -284,29 +258,24 @@ namespace BookStoreWebApi.Migrations
 
             modelBuilder.Entity("BookStoreWebApi.Models.Book", b =>
                 {
-                    b.HasOne("BookStoreWebApi.Models.ShoppingCart")
-                        .WithMany("BooksId")
-                        .HasForeignKey("ShoppingCartId");
-                });
-
-            modelBuilder.Entity("BookStoreWebApi.Models.Courier", b =>
-                {
-                    b.HasOne("BookStoreWebApi.Models.Order")
-                        .WithMany("CouriersId")
-                        .HasForeignKey("OrderId");
+                    b.HasOne("BookStoreWebApi.Models.ShoppingCart", "ShoppingCart")
+                        .WithMany("Books")
+                        .HasForeignKey("ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BookStoreWebApi.Models.Customer", b =>
                 {
-                    b.HasOne("BookStoreWebApi.Models.Order")
-                        .WithMany("CustomersId")
-                        .HasForeignKey("OrderId");
+                    b.HasOne("BookStoreWebApi.Models.Order", "Order")
+                        .WithMany("Customers")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BookStoreWebApi.Models.Order", b =>
                 {
                     b.HasOne("BookStoreWebApi.Models.ShoppingCart")
-                        .WithMany("OrdersId")
+                        .WithMany("Orders")
                         .HasForeignKey("ShoppingCartId");
                 });
 

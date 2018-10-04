@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStoreWebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180929163801_book")]
-    partial class book
+    [Migration("20181004145639_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,7 +36,7 @@ namespace BookStoreWebApi.Migrations
 
                     b.Property<string>("SectionOfLiterature");
 
-                    b.Property<int?>("ShoppingCartId");
+                    b.Property<int>("ShoppingCartId");
 
                     b.Property<DateTime>("YearOfPublishing")
                         .HasColumnType("Date");
@@ -152,7 +152,7 @@ namespace BookStoreWebApi.Migrations
 
                     b.Property<string>("FormOfPayment");
 
-                    b.Property<int>("ShoppingCartId");
+                    b.Property<int?>("ShoppingCartId");
 
                     b.Property<string>("TypeOfDeliver");
 
@@ -284,15 +284,16 @@ namespace BookStoreWebApi.Migrations
 
             modelBuilder.Entity("BookStoreWebApi.Models.Book", b =>
                 {
-                    b.HasOne("BookStoreWebApi.Models.ShoppingCart")
-                        .WithMany("BooksId")
-                        .HasForeignKey("ShoppingCartId");
+                    b.HasOne("BookStoreWebApi.Models.ShoppingCart", "ShoppingCart")
+                        .WithMany("Books")
+                        .HasForeignKey("ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BookStoreWebApi.Models.Courier", b =>
                 {
                     b.HasOne("BookStoreWebApi.Models.Order", "Order")
-                        .WithMany("CouriersId")
+                        .WithMany("Couriers")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -300,17 +301,16 @@ namespace BookStoreWebApi.Migrations
             modelBuilder.Entity("BookStoreWebApi.Models.Customer", b =>
                 {
                     b.HasOne("BookStoreWebApi.Models.Order", "Order")
-                        .WithMany("CustomersId")
+                        .WithMany("Customers")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BookStoreWebApi.Models.Order", b =>
                 {
-                    b.HasOne("BookStoreWebApi.Models.ShoppingCart", "ShoppingCart")
-                        .WithMany("OrdersId")
-                        .HasForeignKey("ShoppingCartId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("BookStoreWebApi.Models.ShoppingCart")
+                        .WithMany("Orders")
+                        .HasForeignKey("ShoppingCartId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
