@@ -46,7 +46,7 @@ namespace BookStoreWebApi.Controllers
                 var book = await db.Books.FirstOrDefaultAsync(p => p.ISBN == ISBN);
                 if (book != null)
                 {
-                    return View(new TypeOfDeliverViewModel { Book = book });
+                    return View(new TypeOfDeliverViewModel { GetBook = ISBN });
                 }               
             }
             return NotFound();
@@ -61,13 +61,14 @@ namespace BookStoreWebApi.Controllers
             if (ModelState.IsValid)
             {
                 DateTime dateTime = DateTime.Now;
-                var shoppingCart = new ShoppingCart() {
+                var shoppingCart = new ShoppingCart()
+                {
                     CountCopy = typeOfDeliver.CountOfBooks
                 };
                 await db.Shoppings.AddAsync(shoppingCart);
                 await db.SaveChangesAsync();
 
-                var book = typeOfDeliver.Book;
+                Book book = await db.Books.FirstOrDefaultAsync(p => p.ISBN == typeOfDeliver.GetBook);
                 book.ShoppingCart = shoppingCart;
                 await db.SaveChangesAsync();
 

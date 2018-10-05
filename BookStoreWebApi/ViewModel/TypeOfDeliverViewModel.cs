@@ -16,7 +16,7 @@ namespace BookStoreWebApi.ViewModel
         public string Adress { get; set; }
         [Required]
         public int CountOfBooks { get; set; }
-
-        public Book Book { get; set; }
+   
+        public string GetBook { get; set; }
     }
 }

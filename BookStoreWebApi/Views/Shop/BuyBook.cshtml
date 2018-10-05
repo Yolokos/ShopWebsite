@@ -1,11 +1,10 @@
 ﻿@model BookStoreWebApi.ViewModel.TypeOfDeliverViewModel
-
 @using BookStoreWebApi.Enums
 @{
     ViewData["Title"] = "BuyBook";
 }
 
-<h2>Оформление заказа для книги "@Model.Book.NameOfBook"</h2>
+<h2>Оформление заказа</h2>
 
 
 
@@ -47,6 +46,9 @@
                 <input asp-for="CountOfBooks" type="text" class="form-control" size="10" value="1" />
                 <span asp-validation-for="CountOfBooks" class="text-danger"></span>
             </div><br />
+            <div>
+                <input asp-for="GetBook" type="hidden" value="@Model.GetBook" />
+            </div>
             <div>
                 <input type="submit" value="Сделать заказ" class="btn btn-primary"/>
             </div>
