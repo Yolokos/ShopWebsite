@@ -88,6 +88,8 @@ namespace BookStoreWebApi.Controllers
                 var user = await GetCurrentUser();
                 user.Order = order;
                 await db.SaveChangesAsync();
+
+                return View("AllOrders", order);
             }
             return View(typeOfDeliver);
         }

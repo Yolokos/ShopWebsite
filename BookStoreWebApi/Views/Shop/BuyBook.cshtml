@@ -9,48 +9,69 @@
 
 
 <form method="post" asp-controller="Shop" asp-action="BuyBook">
-        <div class="form-group">
+    <div id="create_order" class="form-group">
+        <div>
+            <label asp-for="Type" class="col-md-2 control-label">Тип доставки</label>
             <div>
-                <label asp-for="Type" class="col-md-2 control-label">Тип доставки</label>
-                <div>
-                    <select asp-for="Type">
-                        <option selected="selected" value="">Please select</option>
-                        <option value="@(EnumTypeOfDeliver.CourierDeliver)">Доставка курьером</option>
-                        <option value="@(EnumTypeOfDeliver.ExpressCourierDeliver)">Cрочная и быстрая доставка</option>
-                        <option value="@(EnumTypeOfDeliver.StaffCourierDeliver)">Доставка от штатного курьера</option>
-                        <option value="@(EnumTypeOfDeliver.PostDeliver)">Почта</option>
-                    </select>
-                    <span asp-validation-for="Type" class="text-danger" />
-                </div>
-            </div><br />
+                <select id="select_deliver" asp-for="Type">
+                    <option selected="selected" value="">Please select</option>
+                    <option value="@(EnumTypeOfDeliver.CourierDeliver)">Доставка курьером</option>
+                    <option value="@(EnumTypeOfDeliver.ExpressCourierDeliver)">Cрочная и быстрая доставка</option>
+                    <option value="@(EnumTypeOfDeliver.StaffCourierDeliver)">Доставка от штатного курьера</option>
+                    <option value="@(EnumTypeOfDeliver.PostDeliver)">Почта</option>
+                </select>
+                <span asp-validation-for="Type" class="text-danger" />
+            </div>
+        </div><br />
 
-            <div>
-                    <label asp-for="TypePayment" class="col-md-2 control-label">Тип оплаты</label>
-                    <select asp-for="TypePayment">
-                        <option selected="selected" value="">Please select</option>
-                        <option value="@(EnumOfPayment.QIWI)">QIWI</option>
-                        <option value="@(EnumOfPayment.VisaMasterCard)">VISA</option>
-                        <option value="@(EnumOfPayment.WebMoney)">Web Money</option>
-                        <option value="@(EnumOfPayment.YandexMoney)">Yandex.Деньги</option>
-                    </select>
-                    <span asp-validation-for="TypePayment" class="text-danger" />
-             </div><br />
-           
-            <div>
-                <label asp-for="Adress">Адресс</label>
-                <input asp-for="Adress" type="text" class="form-control" size="40" />
-                <span asp-validation-for="Adress" class="text-danger"></span>
-            </div><br />
-            <div>
-                <label asp-for="CountOfBooks">Кол-во экземпляров</label>
-                <input asp-for="CountOfBooks" type="text" class="form-control" size="10" value="1" />
-                <span asp-validation-for="CountOfBooks" class="text-danger"></span>
-            </div><br />
-            <div>
-                <input asp-for="GetBook" type="hidden" value="@Model.GetBook" />
-            </div>
-            <div>
-                <input type="submit" value="Сделать заказ" class="btn btn-primary"/>
-            </div>
+        <div>
+            <label asp-for="TypePayment" class="col-md-2 control-label">Тип оплаты</label>
+            <select id="select_payment" asp-for="TypePayment">
+                <option selected="selected" value="">Please select</option>
+                <option value="@(EnumOfPayment.QIWI)">QIWI</option>
+                <option value="@(EnumOfPayment.VisaMasterCard)">VISA</option>
+                <option value="@(EnumOfPayment.WebMoney)">Web Money</option>
+                <option value="@(EnumOfPayment.YandexMoney)">Yandex.Деньги</option>
+            </select>
+            <span asp-validation-for="TypePayment" class="text-danger" />
+        </div><br />
+
+        <div>
+            <label asp-for="Adress">Адресс</label>
+            <input id="address" name="address" asp-for="Adress" type="text" class="form-control" size="40" />
+            <span asp-validation-for="Adress" class="text-danger"></span>
+        </div><br />
+        <div>
+            <label asp-for="CountOfBooks">Кол-во экземпляров</label>
+            <input id="count_books" asp-for="CountOfBooks" type="text" class="form-control" size="10" value="1" />
+            <span asp-validation-for="CountOfBooks" class="text-danger"></span>
+        </div><br />
+        <div>
+            <input id="book_isbn" asp-for="GetBook" type="hidden" value="@Model.GetBook" />
         </div>
+        <div>
+            <input id="send_order" type="submit" value="Сделать заказ" class="btn btn-primary" />
+        </div>
+    </div>
 </form>
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="~/js/createOrder.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <!--[if lt IE 10]>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.1/jquery.xdomainrequest.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/suggestions-jquery@18.8.0/dist/js/jquery.suggestions.min.js"></script>
+    <script type="text/javascript">
+        $("#address").suggestions({
+            token: "3cda3cc0ddb5f406aba0c1d5af03126bf0e1b4c8",
+            type: "ADDRESS",
+            count: 5,
+            /* Вызывается, когда пользователь выбирает одну из подсказок */
+            onSelect: function (suggestion) {
+                console.log(suggestion);
+            }
+        });
+    </script>
+}
