@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
 using BookStoreWebApi.Models;
 using BookStoreWebApi.ViewModel;
+using BookStoreWebApi.Services;
+using BookStoreWebApi.FIlters;
 
 namespace BookStoreWebApi.Controllers
 {
@@ -16,34 +19,47 @@ namespace BookStoreWebApi.Controllers
         private readonly UserManager<Customer> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly SignInManager<Customer> signInManager;
+        private readonly ApplicationDbContext db;
 
         public AccountController(
             UserManager<Customer> userManager, 
             RoleManager<IdentityRole> roleManager, 
-            SignInManager<Customer> signInManager)
+            SignInManager<Customer> signInManager,
+            ApplicationDbContext db)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.signInManager = signInManager;
+            this.db = db;
         }
 
         [Authorize]
-        public IActionResult Profile()
+        public async Task<IActionResult> Profile()
         {
-            return View();
+            return View(await userManager.GetUserAsync(HttpContext.User));
         }
 
         [HttpGet]
         [AllowAnonymous]
+        [AfterAuth]
         public IActionResult Register()
         {
             return View();
         }
 
+        [Authorize]
+        public async Task<IActionResult> Orders()
+        {
+            var user = await userManager.GetUserAsync(HttpContext.User);
+            ShoppingCart shoppingCart = db.Shoppings.Where(p => p.Id == user.Id) as ShoppingCart;
+           
+            return View(shoppingCart);
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             
             if (ModelState.IsValid)
@@ -55,22 +71,24 @@ namespace BookStoreWebApi.Controllers
                     Name = model.Name,
                     SurName = model.SurName,
                     PhoneNumber = model.PhoneNumber,
-                    OrderId = null
                 };
 
                 var result = await userManager.CreateAsync(customer, model.Password);
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(customer, "user");
-                    await signInManager.SignInAsync(customer, false);
+                    var code = await userManager.GenerateEmailConfirmationTokenAsync(customer);
+                    var callbackUrl = Url.Action(
+                        "ConfirmEmail",
+                        "Account",
+                        new { customerId = customer.Id, code = code },
+                        protocol: HttpContext.Request.Scheme);
+                    EmailService emailService = new EmailService();
+                    await emailService.SendEmailAsync(model.Email, "Confirm your account",
+                        $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>");
+
+                    // await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
                 }
             }
             return View(model);
@@ -78,35 +96,58 @@ namespace BookStoreWebApi.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string customerId, string code)
+        {
+            if (customerId == null || code == null)
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+            var user = await userManager.FindByIdAsync(customerId);
+            if (user == null)
+            {
+                return View("Error");
+            }
+            var result = await userManager.ConfirmEmailAsync(user, code);
+            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+        }
+
+        [HttpGet]
+        [AfterAuth]
+        [AllowAnonymous]
         public IActionResult Login(string returnUrl)
         {
-            return View(new LoginViewModel { ReturnUrl = returnUrl });
+            return View(new LoginViewModel { ReturnUrl = returnUrl});
         }
 
         [HttpPost]
         [AllowAnonymous]
-        [HttpPost]
+        [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            ViewData["ReturnUrl"] = model.ReturnUrl;
             if (ModelState.IsValid)
             {
-                var result =
-                 await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var customer = await userManager.FindByNameAsync(model.Email);
+                if (customer != null)
+                {
+                    // проверяем, подтвержден ли email
+                    if (!await userManager.IsEmailConfirmedAsync(customer))
+                    {
+                        ModelState.AddModelError(string.Empty, "Вы не подтвердили свой email");
+                        return View(model);
+                    }
+                }
+
+                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password,
+                                                    model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    // проверяем, принадлежит ли URL приложению
-                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-                    {
-                        return Redirect(model.ReturnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return View(model);
                 }
             }
             return View(model);

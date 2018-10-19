@@ -3,14 +3,16 @@ using System;
 using BookStoreWebApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookStoreWebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181015142646_update v4.5")]
+    partial class updatev45
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace BookStoreWebApi.Migrations
 
                     b.Property<string>("SectionOfLiterature");
 
-                    b.Property<string>("ShoppingCartId");
+                    b.Property<int?>("ShoppingCartId");
 
                     b.Property<DateTime>("YearOfPublishing")
                         .HasColumnType("Date");
@@ -122,7 +124,7 @@ namespace BookStoreWebApi.Migrations
 
                     b.Property<string>("FormOfPayment");
 
-                    b.Property<string>("ShoppingCartId");
+                    b.Property<int?>("ShoppingCartId");
 
                     b.Property<string>("TypeOfDeliver");
 
@@ -137,7 +139,7 @@ namespace BookStoreWebApi.Migrations
 
             modelBuilder.Entity("BookStoreWebApi.Models.ShoppingCart", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("CountCopy");
@@ -256,7 +258,7 @@ namespace BookStoreWebApi.Migrations
 
             modelBuilder.Entity("BookStoreWebApi.Models.Book", b =>
                 {
-                    b.HasOne("BookStoreWebApi.Models.ShoppingCart")
+                    b.HasOne("BookStoreWebApi.Models.ShoppingCart", "ShoppingCart")
                         .WithMany("Books")
                         .HasForeignKey("ShoppingCartId");
                 });

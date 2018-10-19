@@ -3,14 +3,16 @@ using System;
 using BookStoreWebApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookStoreWebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181017113450_update v46")]
+    partial class updatev46
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -256,7 +258,7 @@ namespace BookStoreWebApi.Migrations
 
             modelBuilder.Entity("BookStoreWebApi.Models.Book", b =>
                 {
-                    b.HasOne("BookStoreWebApi.Models.ShoppingCart")
+                    b.HasOne("BookStoreWebApi.Models.ShoppingCart", "ShoppingCart")
                         .WithMany("Books")
                         .HasForeignKey("ShoppingCartId");
                 });
@@ -267,7 +269,7 @@ namespace BookStoreWebApi.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId");
 
-                    b.HasOne("BookStoreWebApi.Models.ShoppingCart")
+                    b.HasOne("BookStoreWebApi.Models.ShoppingCart", "ShoppingCart")
                         .WithMany("Orders")
                         .HasForeignKey("ShoppingCartId");
                 });

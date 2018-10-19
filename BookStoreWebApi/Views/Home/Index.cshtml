@@ -12,3 +12,15 @@
         <p>Здесь вы можете заглянуть  в магазин. Посмотреть описание понравихшися вам книжек. Выбрать и оформить заказ.</p>
     </div>
 </div>
+
+<div id="div1" style="width:80px;height:80px;display:none;background-color:red;"></div>
+<button id="divbutton">lol</button>
+
+@section Scripts{
+    <script> $(document).ready(function () {
+     $("#divbutton").click(function () {
+         $("#div1").fadeToggle();
+     });
+        });
+    </script>   
+}
