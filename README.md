@@ -2,8 +2,11 @@
 ASP.NET Core MVC with Identity Website 
 
 Used Library: JQuery, Ajax, Bootstrap 4
+
 Also used services: dadata.ru
+
 For hosting used: smarterpnet.net
+
 DBMS: MySql;
 
 Web-Site 
