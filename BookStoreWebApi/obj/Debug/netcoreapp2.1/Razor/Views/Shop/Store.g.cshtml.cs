@@ -80,7 +80,7 @@ using BookStoreWebApi.Models;
             WriteLiteral("            <div class=\"card bg-info\">\r\n\r\n                <div class=\"col-sm-4\">\r\n                    <table>\r\n                        <tr>\r\n                            ");
             EndContext();
             BeginContext(416, 89, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "5f34c3e1f51241308bce23f551562ee6", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "3b13b3ff59d64e1c8a243845652ba265", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -159,7 +159,7 @@ AddHtmlAttributeValue("", 460, book.ISBN, 460, 12, false);
             WriteLiteral("</td></tr>\r\n                    </table>\r\n                    <div class=\"bottom\">\r\n                        ");
             EndContext();
             BeginContext(1060, 124, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "801270b22e2249c3a56d81c8609c8ea1", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9b3c059cd2e34588a0d4938a971d571a", async() => {
                 BeginContext(1174, 6, true);
                 WriteLiteral("Купить");
                 EndContext();
@@ -198,7 +198,7 @@ AddHtmlAttributeValue("", 460, book.ISBN, 460, 12, false);
             WriteLiteral("\r\n                    </div>\r\n                    <div class=\"bottom\">\r\n                        ");
             EndContext();
             BeginContext(1280, 119, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "79dbb10befee43db940b8fcd73aa27ed", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e5c9c277ba8421cbb009960b683261b", async() => {
                 BeginContext(1387, 8, true);
                 WriteLiteral("Описание");
                 EndContext();

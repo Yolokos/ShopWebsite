@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BookStoreWebApi.Models.Order>
+﻿@model BookStoreWebApi.Models.ShoppingCart
 
 @{
     ViewData["Title"] = "Orders";
@@ -19,7 +19,7 @@
         <td><a>Коль-во</a></td>
     </tr>
     <tr>
-        @foreach(var order in Model)
+        @foreach(var order in Model.Orders)
         {
             <td>@order.DateOrder</td>
             <td>@order.DateDeliver</td>

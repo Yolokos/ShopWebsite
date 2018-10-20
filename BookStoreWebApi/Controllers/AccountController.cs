@@ -14,6 +14,9 @@ using BookStoreWebApi.FIlters;
 
 namespace BookStoreWebApi.Controllers
 {
+    //This class for controll account
+    //Also for register or log and logout
+    //You can edit your profile and etc.
     public class AccountController : Controller
     {
         private readonly UserManager<Customer> userManager;
@@ -47,13 +50,17 @@ namespace BookStoreWebApi.Controllers
             return View();
         }
 
+        //not complete
         [Authorize]
         public async Task<IActionResult> Orders()
         {
             var user = await userManager.GetUserAsync(HttpContext.User);
-            ShoppingCart shoppingCart = db.Shoppings.Where(p => p.Id == user.Id) as ShoppingCart;
+            ShoppingCart shoppingCart = await db.Shoppings.FirstOrDefaultAsync(p => p.Id == user.Id);
+            List<Order> orders = await db.Orders.Where(p => p.ShoppingCartId == shoppingCart.Id).ToListAsync();
+            List<Book> books = await db.Books.Where(p => p.ShoppingCartId == shoppingCart.Id).ToListAsync();
            
-            return View(shoppingCart);
+            
+            return View(new CurrentOrdersViewModel { Orders = orders, Books = books});
         }
 
         [HttpPost]
@@ -153,7 +160,7 @@ namespace BookStoreWebApi.Controllers
             return View(model);
         }
 
-       
+        [Authorize]
         public async Task<IActionResult> Logoff()
         {
             await signInManager.SignOutAsync();

@@ -4,6 +4,7 @@ using BookStoreWebApi.Models;
 
 namespace BookStoreWebApi.ViewModel
 {
+    //When creating order 
     public class TypeOfDeliverViewModel
     {
         [Required]

@@ -64,7 +64,7 @@ using BookStoreWebApi.Models;
             WriteLiteral("\r\n<h2>Вы подтвердили почту</h2>\r\n<p>Спасибо за подтвержденип почту, пожалуйста перейдите за этой ссылкой и ");
             EndContext();
             BeginContext(157, 63, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ab36ce7d5f8d4e0d8e83f8e60afba8ac", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "af6b5fa7515142eeb7bc80fe0bea8cd2", async() => {
                 BeginContext(204, 12, true);
                 WriteLiteral("залогиньтесь");
                 EndContext();

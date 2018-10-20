@@ -95,7 +95,7 @@ using BookStoreWebApi.Models;
             WriteLiteral("</p>\r\n</div>\r\n\r\n");
             EndContext();
             BeginContext(241, 87, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "bb056828201f43848600d0c67d944d29", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e79c5a977a504bf59d69f8ca98620467", async() => {
                 BeginContext(313, 11, true);
                 WriteLiteral("Ваши заказы");
                 EndContext();

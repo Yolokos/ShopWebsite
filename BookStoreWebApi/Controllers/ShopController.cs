@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BookStoreWebApi.Controllers
 {
+    //This class controlling shop
+    //and connect to database
     public class ShopController : Controller
     {
         private readonly ApplicationDbContext db;
@@ -23,6 +25,7 @@ namespace BookStoreWebApi.Controllers
           
         }
 
+        //Getting all books from db and create shopping cart for single user(customer)
         public async Task<IActionResult> Store()
         {
             var user = await GetCurrentUser();
@@ -40,6 +43,7 @@ namespace BookStoreWebApi.Controllers
             return View(await db.Books.ToListAsync());
         }
 
+        //getting description from db
         public async Task<IActionResult> AboutBook(string ISBN)
         {
             var book = await db.Books.FirstOrDefaultAsync(p => p.ISBN == ISBN);
@@ -65,6 +69,8 @@ namespace BookStoreWebApi.Controllers
         }
        
 
+
+        //Buy book this is function creating order 
         [HttpPost]
         [Authorize(Roles = "user, admin")]
         [ValidateAntiForgeryToken]
@@ -111,6 +117,7 @@ namespace BookStoreWebApi.Controllers
             return await userManager.GetUserAsync(HttpContext.User);
         }
 
+        //for testing you can initialize few books
         private async Task InitializeBooks()
         {
             var books = new List<Book> {new Book{
