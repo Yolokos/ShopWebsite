@@ -66,7 +66,7 @@ using BookStoreWebApi.Models;
             WriteLiteral("\r\n<h2>Описание</h2>\r\n\r\n");
             EndContext();
             BeginContext(107, 44, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "27b2ea616db54b5ca33e0464c63798ae", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "3137fe76355041bd845c7392897c71d3", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -102,7 +102,7 @@ Write(Model.Description);
             WriteLiteral("</p>\r\n\r\n<div class=\"bottom\">\r\n    ");
             EndContext();
             BeginContext(210, 121, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "89143279987e4259a63321dc749b4744", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "344b97b04aef459891a63d3c2adce54c", async() => {
                 BeginContext(313, 14, true);
                 WriteLiteral("Оформить заказ");
                 EndContext();

@@ -28,18 +28,7 @@ namespace BookStoreWebApi.Controllers
         //Getting all books from db and create shopping cart for single user(customer)
         public async Task<IActionResult> Store()
         {
-            var user = await GetCurrentUser();
-            ShoppingCart shopping = await db.Shoppings.FirstOrDefaultAsync(p => p.Id == user.Id);
-            if (shopping == null)
-            {
-                shopping = new ShoppingCart
-                {
-                    Id = user.Id
-                };
-                await db.Shoppings.AddAsync(shopping);
-                await db.SaveChangesAsync();
-            }
-
+            
             return View(await db.Books.ToListAsync());
         }
 
@@ -80,20 +69,10 @@ namespace BookStoreWebApi.Controllers
             {
                 DateTime dateTime = DateTime.Now;
                 Customer customer = await GetCurrentUser();
-
-
-
-
-                var shoppingCart = await db.Shoppings.FirstOrDefaultAsync(p => p.Id == customer.Id);
-                shoppingCart.CountCopy = typeOfDeliver.CountOfBooks;
-                await db.SaveChangesAsync();
-
-                Book book = await db.Books.FirstOrDefaultAsync(p => p.ISBN == typeOfDeliver.GetBook);
-                book.ShoppingCartId = shoppingCart.Id;
-                await db.SaveChangesAsync();
+                Book book = await db.Books.FirstOrDefaultAsync(b => b.ISBN == typeOfDeliver.GetBook);
 
                 var order = new Order
-                {
+                {                  
                     FormOfPayment = typeOfDeliver.TypePayment.ToString(),
                     DateOrder = dateTime,
                     DateDeliver = dateTime.AddDays(3),
@@ -101,10 +80,12 @@ namespace BookStoreWebApi.Controllers
                     TypeOfDeliver = typeOfDeliver.Type.ToString(),
                     DeliverPrice = typeOfDeliver.Price,
                     DeliverAdress = typeOfDeliver.Adress,
-                    CustomerId = customer.Id,
-                    ShoppingCartId = shoppingCart.Id                   
+                    CustomerId = customer.Id,                   
                 };
                 await db.Orders.AddAsync(order);
+                await db.SaveChangesAsync();
+
+                order.OrderBooks.Add(new OrderBook { OrderId = order.OrderId, BookId = book.ISBN, CountCopy = typeOfDeliver.CountOfBooks });
                 await db.SaveChangesAsync();
 
                 return RedirectToAction("Orders", "Account");
@@ -149,7 +130,7 @@ namespace BookStoreWebApi.Controllers
             }
             };
 
-            await db.Books.AddAsync(books[0]);
+            await db.Books.AddRangeAsync(new List<Book> { books[0], books[1]});
             await db.SaveChangesAsync();           
         }
     }

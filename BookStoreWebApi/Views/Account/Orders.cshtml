@@ -1,33 +1,45 @@
-﻿@model BookStoreWebApi.Models.ShoppingCart
+﻿@model  IEnumerable<BookStoreWebApi.Models.Order>
 
 @{
     ViewData["Title"] = "Orders";
 }
 
-<h2>Orders</h2>
+<h2>Ваши заказы</h2>
 
 <table class="table table-striped">
     <tr>
-        <td><a>Название книги</a></td>
-    
+        <td><a>Номер заказа</a></td>
+
         <td><a>Дата оформление заказа</a></td>
-      
+
         <td><a>Дата доставки</a></td>
-   
+
         <td><a>Цена</a></td>
-   
+
+        <td><a>Книжки</a></td>
+
         <td><a>Коль-во</a></td>
     </tr>
-    <tr>
-        @foreach(var order in Model.Orders)
-        {
+    @foreach (var order in Model)
+    {
+        <tr>
+            <td>@order.OrderId</td>
             <td>@order.DateOrder</td>
             <td>@order.DateDeliver</td>
-            <td>@order.ShoppingCartId</td>
-            //@foreach(var book in order.ShoppingCart.Books.Where(p => p.ShoppingCartId == order.ShoppingCartId).ToList())
-         //   {
-             //   <td>@book.NameOfBook</td>
-           // }
-        }
-    </tr>
+            <td>@order.DeliverPrice</td>
+            <td>
+                @foreach (var book in order.OrderBooks.Select(p => p.Book).ToList())
+                {
+                    @book.NameOfBook
+                    
+                }
+            </td>
+            <td>
+                @foreach(var count in order.OrderBooks.Select(p => p.CountCopy).ToList())
+                {
+                    @count
+                }
+            </td>
+        </tr>
+    }
 </table>

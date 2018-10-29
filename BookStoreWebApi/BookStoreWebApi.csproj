@@ -13,4 +13,8 @@
     <PackageReference Include="pomelo.entityframeworkcore.mysql" Version="2.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

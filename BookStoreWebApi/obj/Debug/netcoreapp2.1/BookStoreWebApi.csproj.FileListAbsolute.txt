@@ -39,3 +39,7 @@ C:\Users\guts\source\repos\ShopWebApp\BookStoreWebApi\obj\Debug\netcoreapp2.1\Ra
 C:\Users\guts\source\repos\ShopWebApp\BookStoreWebApi\obj\Debug\netcoreapp2.1\Razor\Views\Account\ConfirmEmail.g.cshtml.cs
 C:\Users\guts\source\repos\ShopWebApp\BookStoreWebApi\obj\Debug\netcoreapp2.1\Razor\Views\Account\Profile.g.cshtml.cs
 C:\Users\guts\source\repos\ShopWebApp\BookStoreWebApi\obj\Debug\netcoreapp2.1\Razor\Views\Account\Orders.g.cshtml.cs
+C:\Users\guts\source\repos\ShopWebApp\BookStoreWebApi\obj\Debug\netcoreapp2.1\Razor\Views\Account\Edit.g.cshtml.cs
+C:\Users\guts\source\repos\ShopWebApp\BookStoreWebApi\obj\Debug\netcoreapp2.1\Razor\Views\Account\ChangePassword.g.cshtml.cs
+C:\Users\guts\source\repos\ShopWebApp\BookStoreWebApi\obj\Debug\netcoreapp2.1\Razor\Views\Account\ForgotPassword.g.cshtml.cs
+C:\Users\guts\source\repos\ShopWebApp\BookStoreWebApi\obj\Debug\netcoreapp2.1\Razor\Views\Account\ResetPasswordConfirmation.g.cshtml.cs

@@ -20,12 +20,27 @@ namespace BookStoreWebApi.Models
         public double DeliverPrice { get; set; }
         public string DeliverAdress { get; set; }
 
-        public string ShoppingCartId { get; set; }
-        public ShoppingCart ShoppingCart { get; set; }
+        public List<OrderBook> OrderBooks { get; set; }
+
+        public Order()
+        {
+            OrderBooks = new List<OrderBook>();
+        }
 
         public string CustomerId { get; set; }
         public Customer Customer { get; set; }
 
+    }
+
+    public class OrderBook
+    {
+        public int OrderId { get; set; }
+        public Order Order { get; set; }
+
+        public string BookId { get; set; }
+        public Book Book { get; set; }
+
+        public int CountCopy { get; set; }
     }
 
     public class Book
@@ -39,19 +54,13 @@ namespace BookStoreWebApi.Models
         public string Publishing { get; set; }
         [Column(TypeName = "Date")]
         public DateTime YearOfPublishing { get; set; }
-        public double BookPrice { get; set; }    
+        public double BookPrice { get; set; }
 
-        public string ShoppingCartId { get; set; }
-        public ShoppingCart ShoppingCart { get; set; }
-    }
-
-    public class ShoppingCart
-    {
-  
-        public string Id { get; set; }
-        public List<Order> Orders { get; set; }
-        public List<Book> Books { get; set; }
-        public int CountCopy { get; set; }
+        public List<OrderBook> OrderBooks { get; set; }
+        public Book()
+        {
+            OrderBooks = new List<OrderBook>();
+        }
     }
 
 }

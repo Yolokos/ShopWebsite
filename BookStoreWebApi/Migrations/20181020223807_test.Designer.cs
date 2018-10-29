@@ -3,14 +3,16 @@ using System;
 using BookStoreWebApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookStoreWebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181020223807_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,10 +36,14 @@ namespace BookStoreWebApi.Migrations
 
                     b.Property<string>("SectionOfLiterature");
 
+                    b.Property<string>("ShoppingCartId");
+
                     b.Property<DateTime>("YearOfPublishing")
                         .HasColumnType("Date");
 
                     b.HasKey("ISBN");
+
+                    b.HasIndex("ShoppingCartId");
 
                     b.ToTable("Books");
                 });
@@ -118,28 +124,29 @@ namespace BookStoreWebApi.Migrations
 
                     b.Property<string>("FormOfPayment");
 
+                    b.Property<string>("ShoppingCartId");
+
                     b.Property<string>("TypeOfDeliver");
 
                     b.HasKey("OrderId");
 
                     b.HasIndex("CustomerId");
 
+                    b.HasIndex("ShoppingCartId");
+
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("BookStoreWebApi.Models.OrderBook", b =>
+            modelBuilder.Entity("BookStoreWebApi.Models.ShoppingCart", b =>
                 {
-                    b.Property<int>("OrderId");
-
-                    b.Property<string>("BookId");
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("CountCopy");
 
-                    b.HasKey("OrderId", "BookId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("BookId");
-
-                    b.ToTable("OrderBook");
+                    b.ToTable("Shoppings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -249,24 +256,22 @@ namespace BookStoreWebApi.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("BookStoreWebApi.Models.Book", b =>
+                {
+                    b.HasOne("BookStoreWebApi.Models.ShoppingCart", "ShoppingCart")
+                        .WithMany("Books")
+                        .HasForeignKey("ShoppingCartId");
+                });
+
             modelBuilder.Entity("BookStoreWebApi.Models.Order", b =>
                 {
                     b.HasOne("BookStoreWebApi.Models.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId");
-                });
 
-            modelBuilder.Entity("BookStoreWebApi.Models.OrderBook", b =>
-                {
-                    b.HasOne("BookStoreWebApi.Models.Book", "Book")
-                        .WithMany("OrderBooks")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("BookStoreWebApi.Models.Order", "Order")
-                        .WithMany("OrderBooks")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("BookStoreWebApi.Models.ShoppingCart", "ShoppingCart")
+                        .WithMany("Orders")
+                        .HasForeignKey("ShoppingCartId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

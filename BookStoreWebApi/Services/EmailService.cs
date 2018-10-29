@@ -21,7 +21,7 @@ namespace BookStoreWebApi.Services
             using (var client = new SmtpClient())
             {
                 await client.ConnectAsync("smtp.gmail.com", 25, false);
-                await client.AuthenticateAsync("identity.test1212@gmail.com", "furatp1993");
+                await client.AuthenticateAsync("identity.test1212@gmail.com", "password");
                 await client.SendAsync(emailMessage);
 
                 await client.DisconnectAsync(true);

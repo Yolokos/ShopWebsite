@@ -25,8 +25,8 @@ namespace BookStoreWebApi.Controllers
         private readonly ApplicationDbContext db;
 
         public AccountController(
-            UserManager<Customer> userManager, 
-            RoleManager<IdentityRole> roleManager, 
+            UserManager<Customer> userManager,
+            RoleManager<IdentityRole> roleManager,
             SignInManager<Customer> signInManager,
             ApplicationDbContext db)
         {
@@ -34,6 +34,139 @@ namespace BookStoreWebApi.Controllers
             this.roleManager = roleManager;
             this.signInManager = signInManager;
             this.db = db;
+        }
+
+        [Authorize]
+        public async Task<IActionResult> ChangePassword(string id) {
+            Customer customer = await userManager.FindByIdAsync(id);
+            if(customer != null)
+            {
+                ChangePasswordViewModel changePassword = new ChangePasswordViewModel { Id = customer.Id};
+                return View(changePassword);
+            }
+            return NotFound();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByNameAsync(model.Email);
+                if (user == null || !(await userManager.IsEmailConfirmedAsync(user)))
+                {
+                    return View("ForgotPasswordConfirmation");
+                }
+
+                var code = await userManager.GeneratePasswordResetTokenAsync(user);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                EmailService emailService = new EmailService();
+                await emailService.SendEmailAsync(model.Email, "Reset Password",
+                    $"Для сброса пароля пройдите по ссылке: <a href='{callbackUrl}'>link</a>");
+                return View("ForgotPasswordConfirmation");
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        [AfterAuth]
+        public IActionResult ResetPassword(string code = null)
+        {
+            return code == null ? View("Error") : View();
+        }
+
+        [HttpPost]
+        [AfterAuth]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await userManager.FindByNameAsync(model.Email);
+            if (user == null)
+            {
+                return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
+            }
+            var result = await userManager.ResetPasswordAsync(user, model.Code, model.Password);
+            if (result.Succeeded)
+            {
+                return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
+            }
+            else
+            {
+                foreach(var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+            return View();
+        }
+
+        [AfterAuth]
+        public IActionResult ResetPasswordConfirmation()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var customer = await userManager.FindByIdAsync(model.Id);
+                if(customer != null)
+                {
+                    var result = await userManager.ChangePasswordAsync(customer, model.OldPassword, model.NewPassword);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Profile", "Account");
+                    }
+                    else
+                    {
+                        foreach(var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Пользователь не найден");  
+                }
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditProfile profile)
+        {
+            Customer user = await userManager.GetUserAsync(HttpContext.User);
+            if (profile != null)
+            {
+                user.Name = profile.Name;
+                user.SurName = profile.SurName;
+                await db.SaveChangesAsync();
+            }
+            return RedirectToAction("Profile", "Account");
         }
 
         [Authorize]
@@ -55,12 +188,11 @@ namespace BookStoreWebApi.Controllers
         public async Task<IActionResult> Orders()
         {
             var user = await userManager.GetUserAsync(HttpContext.User);
-            ShoppingCart shoppingCart = await db.Shoppings.FirstOrDefaultAsync(p => p.Id == user.Id);
-            List<Order> orders = await db.Orders.Where(p => p.ShoppingCartId == shoppingCart.Id).ToListAsync();
-            List<Book> books = await db.Books.Where(p => p.ShoppingCartId == shoppingCart.Id).ToListAsync();
-           
-            
-            return View(new CurrentOrdersViewModel { Orders = orders, Books = books});
+
+            List<Order> orderBooks = await db.Orders.Include(c => c.OrderBooks).ThenInclude(p => p.Book).Where(p => p.CustomerId == user.Id).ToListAsync();
+
+
+            return View(orderBooks);
         }
 
         [HttpPost]
@@ -68,7 +200,7 @@ namespace BookStoreWebApi.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
-            
+
             if (ModelState.IsValid)
             {
                 var customer = new Customer
@@ -123,7 +255,7 @@ namespace BookStoreWebApi.Controllers
         [AllowAnonymous]
         public IActionResult Login(string returnUrl)
         {
-            return View(new LoginViewModel { ReturnUrl = returnUrl});
+            return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
 
         [HttpPost]
