@@ -13,6 +13,6 @@ Web-Site
 1. Register 100%
 2. Shop 100%
 3. Architecture Database 100% (maybe will be change in future)
-4. Account 70% (have troubles)
+4. Account 90% 
 5. Design 50% (maybe will be modify in future)
 6. Admin panel 0%(will add soon)
