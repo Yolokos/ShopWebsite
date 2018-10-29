@@ -1,6 +1,8 @@
 # ShopWebsite
 ASP.NET Core MVC with Identity Website 
 
+Simple web-site for buying books or something else with different functions etc.
+
 Used Library: JQuery, Ajax, Bootstrap 4
 
 Also used services: dadata.ru
